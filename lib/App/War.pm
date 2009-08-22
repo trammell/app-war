@@ -9,20 +9,31 @@ our $VERSION = 0.01;
 
 =head1 NAME
 
+App::War - turn a big decision into many small decisions
+
 =head1 SYNOPSIS
+
+    use App::War;
+    my $war = App::War->new;
+    $war->items(qw( this that the-other that-too ));
 
 =head1 DESCRIPTION
 
-=cut
+=head1 METHODS
 
-War->new->main unless caller;
+=head2 App::War->new()
+
+=cut
 
 sub new {
     my $class = shift;
     my $self = bless { @_ }, $class;
-    $self->g(Graph->new(directed => 1));
     return $self;
 }
+
+=head2 $war->main
+
+=cut
 
 sub main {
     my $self = shift;
@@ -37,11 +48,19 @@ sub main {
     print "ts: @ts\n";
 }
 
-sub g {
+=head2 $war->graph
+
+=cut
+
+sub graph {
     my $self = shift;
-    if (@_) { $self->{g} = shift; }
-    return $self->{g};
+    $self->{graph} ||= Graph->new(directed => 1);
+    return $self->{graph};
 }
+
+=head2 $war->items
+
+=cut
 
 sub items {
     my $self = shift;
@@ -53,6 +72,10 @@ sub items {
     return @{ $self->{items} };
 }
 
+=head2 $war->rank
+
+=cut
+
 sub rank {
     my $self = shift;
 
@@ -60,6 +83,10 @@ sub rank {
         $self->compare($v->[0], $v->[1]);
     }
 }
+
+=head2 $war->tsort_not_unique
+
+=cut
 
 sub tsort_not_unique {
 
@@ -69,17 +96,20 @@ sub tsort_not_unique {
 # sort order is unique; no other order respects the edges of the path.
 
     my $self = shift;
-    my @ts = $self->g->topological_sort;
+    my @ts = $self->graph->topological_sort;
 
     for my $i (0 .. $#ts - 1) {
         my ($u,$v) = @ts[$i,$i+1];
-        next if $self->g->has_edge($u,$v);
+        next if $self->graph->has_edge($u,$v);
         return [$u,$v];
     }
 
     return 0;
 }
 
+=head2 $war->compare
+
+=cut
 
 sub compare {
     my ($self,@x) = @_;
@@ -91,10 +121,10 @@ sub compare {
     (my $foo = <STDIN>) =~ y/12//cd;
 
     if ($foo =~ /1/) {
-        $self->g->add_edge($x[0],$x[1]);
+        $self->graph->add_edge($x[0],$x[1]);
     }
     else {
-        $self->g->add_edge($x[1],$x[0]);
+        $self->graph->add_edge($x[1],$x[0]);
     }
 
 }
