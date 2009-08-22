@@ -6,3 +6,6 @@ MANIFEST			This list of files
 README
 script/war.pl
 t/00-load.t
+t/97-pod.t
+t/98-pod-coverage.t
+t/99-perlcritic.t
