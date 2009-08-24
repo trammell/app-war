@@ -1,0 +1,51 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use Getopt::Long;
+use Pod::Usage;
+use App::War;
+
+our %OPT = ();
+
+GetOptions(\%OPT,'file|f=s');
+
+my $war = App::War->new();
+
+
+
+$war->items($OPT{file} ? get_items($OPT{file}) : @ARGV);
+$war->run;
+
+#FIXME: get items
+#FIXME: run the war
+#FIXME: print the results
+
+sub get_items {
+    my $file = shift;
+    open(my $fh, q{<}, $file) or die qq{unable to open '$file': $!};
+    my @items;
+    while (<$fh>) {
+        chomp;
+        next unless /\S/;
+        next if /^\s*#/;
+        warn "$_\n";
+        push @items, $_;
+    }
+    return @items;
+}
+
+
+
+=pod
+
+=head1 NAME
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTIONS
+
+=head1 ARGUMENTS
+
+=cut
+
