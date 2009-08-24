@@ -2,6 +2,7 @@ package App::War;
 use strict;
 use warnings FATAL => 'all';
 use Graph;
+use List::Util 'shuffle';
 
 our $VERSION = 0.01;
 
@@ -31,24 +32,9 @@ sub new {
     return $self;
 }
 
-=head2 $war->main
-
-=cut
-
-sub main {
-    my $self = shift;
-    print "Items are: @{[ $self->items ]}\n";
-    my @items = $self->items;
-    for my $i (0 .. $#items) {
-        $self->g->add_vertex($i);
-    }
-    $self->rank;
-    print "Graph: ", $self->g, "\n";
-    my @ts = map { $items[$_] } $self->g->topological_sort;
-    print "ts: @ts\n";
-}
-
 =head2 $war->graph
+
+Returns the graph state object.  FIXME
 
 =cut
 
@@ -64,38 +50,52 @@ sub graph {
 
 sub items {
     my $self = shift;
-    $self->{items} ||= do {
-        open(my $fh,q(<),$ARGV[0]) or die $!;
-        my @items = map { chomp; $_ } grep /\S/, <>;
-        \@items;
-    };
+    $self->{items} ||= [];
+    if (@_) { $self->{items} = [ shuffle(@_) ]; }
     return @{ $self->{items} };
 }
 
-=head2 $war->rank
+=head2 $war->nitems
 
 =cut
 
-sub rank {
+sub nitems {
     my $self = shift;
-
-    while (my $v = $self->tsort_not_unique) {
-        $self->compare($v->[0], $v->[1]);
-    }
+    return scalar( $self->items );
 }
 
-=head2 $war->tsort_not_unique
+
+
+=head2 $war->run
 
 =cut
 
-sub tsort_not_unique {
+sub run {
+    my $self = shift;
+    my @items = $self->items;
+    $self->graph->add_vertex($_) for 0 .. $self->nitems - 1;
+    while (my $ambiguous = $self->tsort_not_unique) {
+        my ($u,$v) = @$ambiguous;
+        $self->compare($u,$v);
+    }
+    print "Graph: ", $self->graph, "\n";
+    my @ts = map { $items[$_] } $self->graph->topological_sort;
+    print "ts: @ts\n";
+}
+
+
+=head2 $war->tsort_not_unique
 
 # If a topological sort has the property that all pairs of consecutive vertices
 # in the sorted order are connected by edges, then these edges form a directed
 # Hamiltonian path in the DAG. If a Hamiltonian path exists, the topological
 # sort order is unique; no other order respects the edges of the path.
 
+=cut
+
+sub tsort_not_unique {
     my $self = shift;
+
     my @ts = $self->graph->topological_sort;
 
     for my $i (0 .. $#ts - 1) {
