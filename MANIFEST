@@ -1,4 +1,5 @@
 .gitignore
+bin/war
 Build.PL
 etc/fbb.txt
 etc/wv.txt
@@ -6,8 +7,9 @@ lib/App/War.pm
 Makefile.PL
 MANIFEST			This list of files
 README
-script/war
 t/00-load.t
+t/96-fixme.t
 t/97-pod.t
 t/98-pod-coverage.t
 t/99-perlcritic.t
+t/perlcriticrc
