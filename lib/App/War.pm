@@ -64,8 +64,6 @@ sub nitems {
     return scalar( $self->items );
 }
 
-
-
 =head2 $war->run
 
 =cut
@@ -73,7 +71,11 @@ sub nitems {
 sub run {
     my $self = shift;
     my @items = $self->items;
-    $self->graph->add_vertex($_) for 0 .. $self->nitems - 1;
+    $self->_verb("Ranking items: @items");
+    for (0 .. ($self->nitems - 1)) {
+        $self->graph->add_vertex($_);
+    }
+    $self->_verb("graph vertices are: @{[ $self->graph->vertices ]}");
     while (my $ambiguous = $self->tsort_not_unique) {
         my ($u,$v) = @$ambiguous;
         $self->compare($u,$v);
@@ -127,6 +129,12 @@ sub compare {
         $self->graph->add_edge($x[1],$x[0]);
     }
 
+}
+
+sub _verb {
+    my $self = shift;
+    return unless $self->{verbose};
+    warn "@_\n";
 }
 
 1;
