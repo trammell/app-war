@@ -6,20 +6,19 @@ use Getopt::Long;
 use Pod::Usage;
 use App::War;
 
-our %OPT = ();
+our $VERSION = App::War->VERSION;
 
-GetOptions(\%OPT,'file|f=s');
+# handle command-line configuration
+our %OPT;
+my @OPTS = ('file|f=s','help|man|h|?','version|V','verbose|v');
+GetOptions(\%OPT,@OPTS) || pod2usage();
+pod2usage(-verbose => 2) if $OPT{help};
+pod2usage("war $VERSION") if $OPT{version};
 
-my $war = App::War->new();
-
-
-
+# construct the object
+my $war = App::War->new(%OPT);
 $war->items($OPT{file} ? get_items($OPT{file}) : @ARGV);
 $war->run;
-
-#FIXME: get items
-#FIXME: run the war
-#FIXME: print the results
 
 sub get_items {
     my $file = shift;
@@ -29,23 +28,48 @@ sub get_items {
         chomp;
         next unless /\S/;
         next if /^\s*#/;
-        warn "$_\n";
         push @items, $_;
     }
     return @items;
 }
 
-
-
 =pod
 
 =head1 NAME
 
+war - break a big decision into lots of little decisions
+
 =head1 SYNOPSIS
 
-=head1 DESCRIPTIONS
+    war OPTIONS
+    war -f FILE
+
+=head1 DESCRIPTION
+
+C<war> simplifies the process of ranking a set of choices.  For example, 
+
+
+    war apple banana cherry durian
+
 
 =head1 ARGUMENTS
+
+=head2 --file FILE, -f FILE
+
+Read a list of items from C<FILE>, rather than using the items supplied on the
+command line.
+
+=head2 --man, --help, -h, -?
+
+Displays this documentation.
+
+=head2 --verbose, -v
+
+Display verbose output.
+
+=head2 --version, -V
+
+Displays version and copyright information.
 
 =cut
 
