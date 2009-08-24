@@ -3,3 +3,4 @@ Makefile
 _build
 blib
 cover_db
+MANIFEST.bak
