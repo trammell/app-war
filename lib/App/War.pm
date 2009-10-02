@@ -9,15 +9,25 @@ our $VERSION = 0.01;
 
 =head1 NAME
 
-App::War - turn a big decision into many small decisions
+App::War - turn one big decision into many small decisions
 
 =head1 SYNOPSIS
 
     use App::War;
     my $war = App::War->new;
-    $war->items(qw( this that the-other that-too ));
+    $war->items(qw/ this that the-other that-too /);
+    $war->init;
+    $war->rank;
+    $war->report;
 
 =head1 DESCRIPTION
+
+Assume you need to rank a number of objects by preference.  One way to do
+it is to compare the objects two at a time until a clear winner can be
+established.
+
+This module does just that, using a topological sort to establish a clear
+ranking of all objects in the "war".
 
 =head1 METHODS
 
@@ -31,44 +41,57 @@ sub new {
     return $self;
 }
 
-=head2 $war->main
+=head2 $war->run
 
 =cut
 
-sub main {
+sub run {
+    my $self = shift;
+    $self->init;
+    $self->rank;
+    $self->report;
+}
+
+sub init {
     my $self = shift;
     print "Items are: @{[ $self->items ]}\n";
     my @items = $self->items;
+    my $g = $self->graph;
     for my $i (0 .. $#items) {
-        $self->g->add_vertex($i);
+        warn "adding vertex $i\n";
+        $g->add_vertex($i);
+        warn "vertices: @{[ $g->vertices ]}\n";
     }
-    $self->rank;
-    print "Graph: ", $self->g, "\n";
-    my @ts = map { $items[$_] } $self->g->topological_sort;
+}
+
+sub report {
+    my $self = shift;
+    print "Graph: ", $self->graph, "\n";
+    my @items = $self->items;
+    my @ts = map { $items[$_] } $self->graph->topological_sort;
     print "ts: @ts\n";
 }
 
 =head2 $war->graph
+
+Returns the graph object that stores the user choices.
 
 =cut
 
 sub graph {
     my $self = shift;
     $self->{graph} ||= Graph->new(directed => 1);
-    return $self->{graph};
 }
 
 =head2 $war->items
+
+Get/set the items to be ranked.
 
 =cut
 
 sub items {
     my $self = shift;
-    $self->{items} ||= do {
-        open(my $fh,q(<),$ARGV[0]) or die $!;
-        my @items = map { chomp; $_ } grep /\S/, <>;
-        \@items;
-    };
+    if (@_) { $self->{items} = \@_; }
     return @{ $self->{items} };
 }
 
@@ -78,7 +101,6 @@ sub items {
 
 sub rank {
     my $self = shift;
-
     while (my $v = $self->tsort_not_unique) {
         $self->compare($v->[0], $v->[1]);
     }
@@ -86,15 +108,19 @@ sub rank {
 
 =head2 $war->tsort_not_unique
 
+=over 4
+
+If a topological sort has the property that all pairs of consecutive
+vertices in the sorted order are connected by edges, then these edges form
+a directed Hamiltonian path in the DAG. If a Hamiltonian path exists, the
+topological sort order is unique; no other order respects the edges of the
+path.
+
+=back
+
 =cut
 
 sub tsort_not_unique {
-
-# If a topological sort has the property that all pairs of consecutive vertices
-# in the sorted order are connected by edges, then these edges form a directed
-# Hamiltonian path in the DAG. If a Hamiltonian path exists, the topological
-# sort order is unique; no other order respects the edges of the path.
-
     my $self = shift;
     my @ts = $self->graph->topological_sort;
 
@@ -120,11 +146,12 @@ sub compare {
 
     (my $foo = <STDIN>) =~ y/12//cd;
 
+    my $g = $self->graph;
     if ($foo =~ /1/) {
-        $self->graph->add_edge($x[0],$x[1]);
+        $g->add_edge($x[0],$x[1]);
     }
     else {
-        $self->graph->add_edge($x[1],$x[0]);
+        $g->add_edge($x[1],$x[0]);
     }
 
 }

@@ -2,10 +2,11 @@ Build.PL
 fbb.txt
 lib/App/War.pm
 Makefile.PL
-MANIFEST			This list of files
+MANIFEST
 README
 script/war.pl
 t/00-load.t
 t/97-pod.t
 t/98-pod-coverage.t
 t/99-perlcritic.t
+META.yml

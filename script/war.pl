@@ -6,12 +6,19 @@ use Getopt::Long;
 use Pod::Usage;
 use App::War;
 
-GetOptions(\%OPT,'file|f');
+our %OPT = ();
+GetOptions(\%OPT,'help|h');
 
-my $war = App::War->new();
+# get items
+my @items = do {
+    open(my $fh,q(<),$ARGV[0]) or die $!;
+    grep { /\S/ && !/^#/ } map { chomp; $_ } <$fh>;
+};
 
-#FIXME: get items
-#FIXME: run the war
+# run the war
+my $war = App::War->new(items => \@items);
+$war->run;
+
 #FIXME: print the results
 
 
@@ -20,7 +27,13 @@ my $war = App::War->new();
 
 =head1 NAME
 
+war - break one big decision into lots of little decisions
+
 =head1 SYNOPSIS
+
+    war [-h|--help]
+    war --man
+    war <sourcefile>
 
 =head1 DESCRIPTIONS
 
