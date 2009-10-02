@@ -10,8 +10,6 @@ is_deeply([$war->items], \@items);
 $war->init;
 my $g = $war->graph;
 
-is(scalar($g->vertices), scalar(@items));
-
-diag("vertices: @{[$g->vertices]}");
-
+is(scalar($g->vertices), scalar(@items)) or
+    diag("vertices: @{[$g->vertices]}");
 

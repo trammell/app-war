@@ -52,17 +52,28 @@ sub run {
     $self->report;
 }
 
+=head2 $war->init
+
+Uses the content of C<< $self->items >> to initialize a graph containing
+only vertices, one per item.
+
+=cut
+
 sub init {
     my $self = shift;
     print "Items are: @{[ $self->items ]}\n";
     my @items = $self->items;
     my $g = $self->graph;
     for my $i (0 .. $#items) {
-        warn "adding vertex $i\n";
         $g->add_vertex($i);
-        warn "vertices: @{[ $g->vertices ]}\n";
     }
 }
+
+=head2 $war->report
+
+Prints the current state of the graph.
+
+=cut
 
 sub report {
     my $self = shift;
@@ -80,7 +91,10 @@ Returns the graph object that stores the user choices.
 
 sub graph {
     my $self = shift;
-    $self->{graph} ||= Graph->new(directed => 1);
+    unless ($self->{graph}) {
+        $self->{graph} = Graph->new(directed => 1);
+    }
+    return $self->{graph};
 }
 
 =head2 $war->items
@@ -140,9 +154,9 @@ sub tsort_not_unique {
 sub compare {
     my ($self,@x) = @_;
     my @items = $self->items;
-    print "Choose one:\n";
-    print "  1: $items[$x[0]]\n";
-    print "  2: $items[$x[1]]\n";
+    print "Choose one of the following:\n";
+    print "[1] $items[$x[0]]\n";
+    print "[2] $items[$x[1]]\n";
 
     (my $foo = <STDIN>) =~ y/12//cd;
 
@@ -153,7 +167,6 @@ sub compare {
     else {
         $g->add_edge($x[1],$x[0]);
     }
-
 }
 
 1;
