@@ -38,14 +38,14 @@ war - break one big decision into lots of little decisions
 
 =head1 DESCRIPTION
 
-
+FIXME
 
 
 =head1 ARGUMENTS
 
+FIXME
 
-
-
+FIXME should use Pod::Usage
 
 =cut
 
