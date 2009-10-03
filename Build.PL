@@ -21,7 +21,7 @@ my $builder = Module::Build->new(
         'Module::Build::Compat' => 0,
     },
     recursive_test_files => 1,
-    add_to_cleanup       => [ 'App-War-*', '*.bak' ],
+    add_to_cleanup       => [ qw/ Debian* App-War-* *.bak/ ],
 );
 
 $builder->create_build_script;
