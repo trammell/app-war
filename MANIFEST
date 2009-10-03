@@ -14,6 +14,7 @@ t/01-new.t
 t/02-init.t
 t/10-run.t
 t/11-tsort.t
+t/12-rank.t
 t/95-kwalitee.t
 t/96-fixme.t
 t/97-pod.t

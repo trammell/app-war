@@ -3,7 +3,7 @@ name: App-War
 version: 0.01
 author:
   - 'John Trammell <johntrammell@gmail.com>'
-abstract: turn a big decision into many small decisions
+abstract: turn one big decision into many small decisions
 license: perl
 resources:
   license: http://dev.perl.org/licenses/
