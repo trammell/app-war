@@ -19,7 +19,7 @@ App::War - turn one big decision into many small decisions
     $war->items(qw/ this that the-other that-too /);
     $war->init;
     $war->rank;
-    $war->report;
+    print $war->report;
 
 =head1 DESCRIPTION
 
@@ -57,7 +57,6 @@ sub run {
     my $self = shift;
     $self->init;
     $self->rank;
-    $self->report;
 }
 
 =head2 $war->init
@@ -84,16 +83,18 @@ sub init {
 
 =head2 $war->report
 
-Prints the current state of the graph.
+Returns the current state of the war graph as a multiline string.
 
 =cut
 
 sub report {
     my $self = shift;
-    print "Graph: ", $self->graph, "\n";
+    my @out;
+    push @out, "Graph: @{[ $self->graph ]}\n";
     my @items = $self->items;
     my @ts = map { $items[$_] } $self->graph->topological_sort;
-    print "ts: @ts\n";
+    push @out, "ts: @ts\n";
+    return join q(), @out;
 }
 
 =head2 $war->graph
@@ -184,21 +185,19 @@ sub tsort_not_unique {
     return 0;
 }
 
-=head2 $war->compare
+=head2 $war->compare($index1,$index2)
 
-Handles user interaction choosing one of two alternatives.
+Handles user interaction choosing one of two alternatives.  Arguments
+C<$index1> and C<$index2> are indexes into the internal array of items to
+be ranked, and indicate the two items that need to have their rank
+disambiguated.
 
 =cut
 
 sub compare {
     my ($self,@x) = @_;
     my @items = $self->items;
-    print "Choose one of the following:\n";
-    print "[1] $items[$x[0]]\n";
-    print "[2] $items[$x[1]]\n";
-
-    my $response = $self->_get_response;
-
+    my $response = $self->_get_response(@items[@x]);
     if ($response =~ /1/) {
         $self->graph->add_edge($x[0],$x[1]);
     }
@@ -208,7 +207,10 @@ sub compare {
 }
 
 sub _get_response {
-    my $self = shift;
+    my ($self,@items) = @_;
+    print "Choose one of the following:\n";
+    print "<1> $items[0]\n";
+    print "<2> $items[1]\n";
     (my $resp = <STDIN>) =~ y/12//cd;
     return $resp;
 }
