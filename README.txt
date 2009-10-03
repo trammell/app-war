@@ -39,6 +39,5 @@ Copyright (C) 2009 John Trammell
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
-FIXME add Kwalitee test
 FIXME get all coverage categories out of the red
 
