@@ -19,8 +19,8 @@ my @items = do {
 my $war = App::War->new(items => \@items);
 $war->run;
 
-#FIXME: print the results
-
+# print the results
+$war->report;
 
 
 =pod

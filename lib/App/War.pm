@@ -2,6 +2,7 @@ package App::War;
 use strict;
 use warnings FATAL => 'all';
 use Graph;
+use List::Util 'shuffle';
 
 our $VERSION = 0.01;
 
@@ -61,8 +62,8 @@ only vertices, one per item.
 
 sub init {
     my $self = shift;
-    print "Items are: @{[ $self->items ]}\n";
     my @items = $self->items;
+    $self->_info("Ranking items: @items");
     my $g = $self->graph;
     for my $i (0 .. $#items) {
         $g->add_vertex($i);
@@ -105,7 +106,10 @@ Get/set the items to be ranked.
 
 sub items {
     my $self = shift;
-    if (@_) { $self->{items} = \@_; }
+    $self->{items} ||= [];
+    if (@_) {
+        $self->{items} = [ shuffle(@_) ];
+    }
     return @{ $self->{items} };
 }
 
@@ -122,6 +126,9 @@ sub rank {
 
 =head2 $war->tsort_not_unique
 
+If the graph lacks a unique topological sort, this method returns a pair of
+vertices that are currently ambiguous.
+
 =over 4
 
 If a topological sort has the property that all pairs of consecutive
@@ -137,13 +144,11 @@ path.
 sub tsort_not_unique {
     my $self = shift;
     my @ts = $self->graph->topological_sort;
-
     for my $i (0 .. $#ts - 1) {
         my ($u,$v) = @ts[$i,$i+1];
         next if $self->graph->has_edge($u,$v);
         return [$u,$v];
     }
-
     return 0;
 }
 
@@ -166,6 +171,13 @@ sub compare {
     }
     else {
         $g->add_edge($x[1],$x[0]);
+    }
+}
+
+sub _info {
+    my $self = shift;
+    if ($self->{verbose}) {
+        warn "@_\n";
     }
 }
 
