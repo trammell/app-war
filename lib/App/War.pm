@@ -27,12 +27,18 @@ Assume you need to rank a number of objects by preference.  One way to do
 it is to compare the objects two at a time until a clear winner can be
 established.
 
-This module does just that, using a topological sort to establish a clear
-ranking of all objects in the "war".
+This module does just that, using a topological sort to establish a unique
+ordering of all objects in the "war".
+
+This module is modeled loosely after L<http://kittenwar.com/>, a
+crowdsourced web application for determining the cutest kitten in the
+universe.
 
 =head1 METHODS
 
 =head2 App::War->new()
+
+Constructs a new war object.
 
 =cut
 
@@ -43,6 +49,8 @@ sub new {
 }
 
 =head2 $war->run
+
+Starts the war.
 
 =cut
 
@@ -100,7 +108,8 @@ sub graph {
 
 =head2 $war->items
 
-Get/set the items to be ranked.
+Get/set the items to be ranked.  It's a bad idea to modify this once the
+war has started.
 
 =cut
 
@@ -108,12 +117,16 @@ sub items {
     my $self = shift;
     $self->{items} ||= [];
     if (@_) {
-        $self->{items} = [ shuffle(@_) ];
+        $self->{items} = [shuffle @_];
     }
     return @{ $self->{items} };
 }
 
 =head2 $war->rank
+
+Starts the process of uniquely ordering the graph vertices.  This method
+calls method C<tsort_not_unique> until it returns false, I<i.e.> we have a
+unique topo sort.
 
 =cut
 
@@ -126,8 +139,13 @@ sub rank {
 
 =head2 $war->tsort_not_unique
 
-If the graph lacks a unique topological sort, this method returns a pair of
-vertices that are currently ambiguous.
+This method returns a true value (more on this later) if the graph
+currently lacks a unique topo sort.  If the graph B<has> a unique sort, the
+"war" is over, and results should be reported.
+
+If the graph B<lacks> a unique topological sort, this method returns an
+arrayref containing a pair of vertices that have an ambiguous ordering.
+From L<http://en.wikipedia.org/wiki/Topological_sorting>:
 
 =over 4
 
@@ -138,6 +156,9 @@ topological sort order is unique; no other order respects the edges of the
 path.
 
 =back
+
+This property of the topological sort is used to ensure that we have a
+unique ordering of the "combatants" in our "war".
 
 =cut
 
@@ -154,6 +175,8 @@ sub tsort_not_unique {
 
 =head2 $war->compare
 
+Handles user interaction choosing one of two alternatives.
+
 =cut
 
 sub compare {
@@ -163,15 +186,20 @@ sub compare {
     print "[1] $items[$x[0]]\n";
     print "[2] $items[$x[1]]\n";
 
-    (my $foo = <STDIN>) =~ y/12//cd;
+    my $response = $self->_get_response;
 
-    my $g = $self->graph;
-    if ($foo =~ /1/) {
-        $g->add_edge($x[0],$x[1]);
+    if ($response =~ /1/) {
+        $self->graph->add_edge($x[0],$x[1]);
     }
     else {
-        $g->add_edge($x[1],$x[0]);
+        $self->graph->add_edge($x[1],$x[0]);
     }
+}
+
+sub _get_response {
+    my $self = shift;
+    (my $resp = <STDIN>) =~ y/12//cd;
+    return $resp;
 }
 
 sub _info {
