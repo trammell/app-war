@@ -1,6 +1,6 @@
 bin/war
 Build.PL
-Changes
+Changes.txt
 etc/fbb.txt
 etc/wv.txt
 lib/App/War.pm
