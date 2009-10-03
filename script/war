@@ -1,0 +1,51 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings FATAL => 'all';
+use Getopt::Long;
+use Pod::Usage;
+use App::War;
+
+our %OPT = ();
+GetOptions(\%OPT,'help|h');
+
+# get items
+my @items = _items($ARGV[0]);
+
+# fight the war
+my $war = App::War->new(items => \@items)->run;
+
+# print the results
+$war->report;
+
+sub _items {
+    my $file = shift;
+    open(my $fh,q(<),$file) or die $!;
+    return grep { /\S/ && !/^#/ } map { chomp; $_ } <$fh>;
+}
+
+=pod
+
+=head1 NAME
+
+war - break one big decision into lots of little decisions
+
+=head1 SYNOPSIS
+
+    war [-h|--help]
+    war --man
+    war <sourcefile>
+
+=head1 DESCRIPTION
+
+
+
+
+=head1 ARGUMENTS
+
+
+
+
+
+=cut
+
