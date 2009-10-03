@@ -1,5 +1,7 @@
 use Test::More;
 eval 'use Test::Fixme';
-my $f = 'FIX' . 'ME';
-plan skip_all => "Test::Fixme required for $f tests" if $@;
-run_tests();
+plan skip_all => "Test::Fixme required for fixme tests" if $@;
+run_tests(
+    filename_match => qr/\.(?:pl|pm|txt)$/i,
+    match => qr/[F]IXME|[T]ODO|[X]XX/,
+);
