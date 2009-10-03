@@ -1,4 +1,7 @@
+use strict;
+use warnings FATAL => 'all';
 use Test::More tests => 2;
+
 use_ok('App::War');
 
 my $war = App::War->new();
@@ -7,6 +10,8 @@ my $war = App::War->new();
 my @methods = qw/ init rank report /;
 my %count;
 for my $m (@methods) {
+    no strict 'refs';
+    no warnings 'redefine';
     *{"App::War::$m"} = sub { $count{$m}++ };
 }
 $war->run;
