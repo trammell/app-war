@@ -75,7 +75,8 @@ sub init {
     $self->_info("Ranking items: @items");
     my $g = $self->graph;
     for my $i (0 .. $#items) {
-        # $self->graph->add_vertex($i);     ## DOES NOT WORK
+        # Why does this not work?
+        # $self->graph->add_vertex($i);
         $g->add_vertex($i);
     }
     return $self;
@@ -90,10 +91,10 @@ Returns the current state of the war graph as a multiline string.
 sub report {
     my $self = shift;
     my @out;
-    push @out, "Graph: @{[ $self->graph ]}\n";
+    push @out, "graph: @{[ $self->graph ]}\n";
     my @items = $self->items;
     my @ts = map { $items[$_] } $self->graph->topological_sort;
-    push @out, "ts: @ts\n";
+    push @out, "sort: @ts\n";
     return join q(), @out;
 }
 
