@@ -1,4 +1,7 @@
+use strict;
+use warnings FATAL => 'all';
 use Test::More tests => 3;
+
 use_ok('App::War');
 
 my @items = qw{ apple banana ceviche durian };
