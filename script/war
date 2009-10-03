@@ -16,7 +16,7 @@ my @items = _items($ARGV[0]);
 my $war = App::War->new(items => \@items)->run;
 
 # print the results
-$war->report;
+print $war->report;
 
 sub _items {
     my $file = shift;
