@@ -23,12 +23,11 @@ App::War - turn one big decision into many small decisions
 
 =head1 DESCRIPTION
 
-Assume you need to rank a number of objects by preference.  One way to do
-it is to compare the objects two at a time until a clear winner can be
-established.
+How do you go about ranking a number of items?  One way to do it is to
+compare the objects two at a time until a clear winner can be established.
 
 This module does just that, using a topological sort to establish a unique
-ordering of all objects in the "war".
+ordering of all the "combatants" in the "war".
 
 This module is modeled loosely after L<http://kittenwar.com/>, a
 crowdsourced web application for determining the cutest kitten in the
@@ -68,12 +67,16 @@ only vertices, one per item.
 
 =cut
 
+# NOTE: calling '$self->graph->add_vertex' breaks in strange
+# and mysterious ways.  Why does this fix it?
+
 sub init {
     my $self = shift;
     my @items = $self->items;
     $self->_info("Ranking items: @items");
     my $g = $self->graph;
     for my $i (0 .. $#items) {
+        # $self->graph->add_vertex($i);     ## DOES NOT WORK
         $g->add_vertex($i);
     }
 }
