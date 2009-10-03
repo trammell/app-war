@@ -79,6 +79,7 @@ sub init {
         # $self->graph->add_vertex($i);     ## DOES NOT WORK
         $g->add_vertex($i);
     }
+    return $self;
 }
 
 =head2 $war->report
@@ -103,7 +104,7 @@ Returns the graph object that stores the user choices.
 
 sub graph {
     my $self = shift;
-    unless ($self->{graph}) {
+    unless (exists $self->{graph}) {
         $self->{graph} = Graph->new(directed => 1);
     }
     return $self->{graph};
@@ -138,6 +139,7 @@ sub rank {
     while (my $v = $self->tsort_not_unique) {
         $self->compare($v->[0], $v->[1]);
     }
+    return $self;
 }
 
 =head2 $war->tsort_not_unique
@@ -167,11 +169,17 @@ unique ordering of the "combatants" in our "war".
 
 sub tsort_not_unique {
     my $self = shift;
+
+    # search for unordered items by calculating the topological sort and
+    # verifying that adjacent items are connected by a directed edge
+
     my @ts = $self->graph->topological_sort;
+
     for my $i (0 .. $#ts - 1) {
         my ($u,$v) = @ts[$i,$i+1];
-        next if $self->graph->has_edge($u,$v);
-        return [$u,$v];
+        if (!$self->graph->has_edge($u,$v)) {
+            return [$u,$v];
+        }
     }
     return 0;
 }
