@@ -17,6 +17,7 @@ t/11-tsort.t
 t/12-rank.t
 t/13-report.t
 t/14-compare.t
+t/30-info.t
 t/95-kwalitee.t
 t/96-fixme.t
 t/97-pod.t
