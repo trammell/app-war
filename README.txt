@@ -32,6 +32,9 @@ You can also look for information at:
    CPAN Ratings:
       http://cpanratings.perl.org/d/App-War
 
+   Github:
+      http://github.com/trammell/app-war
+
 COPYRIGHT AND LICENCE
 
 Copyright (C) 2009 John Trammell
