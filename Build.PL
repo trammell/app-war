@@ -18,6 +18,7 @@ my $builder = Module::Build->new(
         'strict'                => 0,
         'warnings'              => 0,
         'Test::More'            => 0,
+        'Test::Script'          => 1.06,
         'Module::Build::Compat' => 0,
     },
     recursive_test_files => 1,

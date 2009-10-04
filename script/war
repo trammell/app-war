@@ -40,7 +40,7 @@ my @OPTIONS = qw/ help|h man version|v /;
 GetOptions(\%OPT,@OPTIONS) || pod2usage;
 if ($OPT{version}) { die "Using App::War v$VERSION\n" }
 if ($OPT{man}) { pod2usage(-verbose => 2); }
-if ($OPT{help} || !@ARGV) { pod2usage; }
+if ($OPT{help} || !@ARGV) { pod2usage(-exitval => 0); }
 
 # get items
 my @items = _items(shift);
