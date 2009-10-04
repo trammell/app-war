@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 use strict;
 use warnings FATAL => 'all';
@@ -26,13 +26,21 @@ Choosing your favorite
 
 =head1 OPTIONS
 
-=head2 -h, --help
+=over 4
+
+=item B<-h>, B<--help>
 
 Shows simple command-line options.
 
-=head2 --man
+=item B<--man>
 
 Shows detailed script information.
+
+=item B<--version>
+
+Shows the current script version.
+
+=back
 
 =cut
 
