@@ -1,0 +1,3 @@
+- figure out correct shebang to use
+- compare Pod in script to other scripts (ack, prove, others?)
+- autogenerate README?
