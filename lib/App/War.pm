@@ -223,5 +223,63 @@ sub _info {
     }
 }
 
-1;
+=head1 AUTHOR
+
+John Trammell, C<< <johntrammell <at> gmail <dot> com> >>
+
+=head1 BUGS
+
+Please report any bugs or feature requests to C<bug-app-war at
+rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=App-War>.  I will be
+notified, and then you'll automatically be notified of progress on your bug
+as I make changes.
+
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
+
+    perldoc App::War
+
+Your operating system may also have installed a manual page for this
+module; it would likely be available via the command
+
+    man war
+
+You can also look for information at:
+
+=over 4
+
+=item * GitHub
+
+L<http://github.com/trammell/app-war>
+
+=item * RT: CPAN's request tracker
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=App-War>
+
+=item * AnnoCPAN: Annotated CPAN documentation
+
+L<http://annocpan.org/dist/App-War>
+
+=item * CPAN Ratings
+
+L<http://cpanratings.perl.org/d/App-War>
+
+=item * Search CPAN
+
+L<http://search.cpan.org/dist/App-War/>
+
+=back
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2009 John Trammell, all rights reserved.
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=cut
+
+'BOOYA!';
 
