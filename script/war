@@ -21,17 +21,18 @@ war - break one big decision into lots of little decisions
 
 =head1 DESCRIPTION
 
-FIXME
+Choosing your favorite
+
 
 =head1 OPTIONS
 
 =head2 -h, --help
 
-FIXME
+Shows simple command-line options.
 
 =head2 --man
 
-FIXME
+Shows detailed script information.
 
 =cut
 
