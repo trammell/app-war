@@ -2,27 +2,11 @@
 
 use strict;
 use warnings FATAL => 'all';
+use App::War;
 use Getopt::Long;
 use Pod::Usage;
-use App::War;
 
-our %OPT = ();
-GetOptions(\%OPT,'help|h');
-
-# get items
-my @items = _items($ARGV[0]);
-
-# fight the war
-my $war = App::War->new(items => \@items)->run;
-
-# print the results
-print $war->report;
-
-sub _items {
-    my $file = shift;
-    open(my $fh,q(<),$file) or die $!;
-    return grep { /\S/ && !/^#/ } map { chomp; $_ } <$fh>;
-}
+our $VERSION = $App::War::VERSION;
 
 =pod
 
@@ -32,20 +16,45 @@ war - break one big decision into lots of little decisions
 
 =head1 SYNOPSIS
 
-    war [-h|--help]
-    war --man
+    war [-h|--help] [--man] [--version]
     war <sourcefile>
 
 =head1 DESCRIPTION
 
 FIXME
 
+=head1 OPTIONS
 
-=head1 ARGUMENTS
+=head2 -h, --help
 
 FIXME
 
-FIXME should use Pod::Usage
+=head2 --man
+
+FIXME
 
 =cut
+
+our %OPT = ();
+my @OPTIONS = qw/ help|h man version|v /;
+GetOptions(\%OPT,@OPTIONS) || pod2usage;
+if ($OPT{version}) { die "Using App::War v$VERSION\n" }
+if ($OPT{man}) { pod2usage(-verbose => 2); }
+if ($OPT{help} || !@ARGV) { pod2usage; }
+
+# get items
+my @items = _items(shift);
+
+# fight the war
+my $war = App::War->new(items => \@items)->run;
+
+# print the results
+print $war->report;
+
+# read the items from the file specified on the command line
+sub _items {
+    my $file = shift;
+    open(my $h,q(<),$file) or die $!;
+    return grep { /\S/ && !/^#/ } map { chomp; $_ } <$h>;
+}
 
