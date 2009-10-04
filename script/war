@@ -21,10 +21,10 @@ war - break one big decision into lots of little decisions
 
 =head1 DESCRIPTION
 
-Imagine you're at a department store, trying to choose your favorite
-flatware pattern out of a dozen or more alternatives.  How do you do it?
-If no pattern stands out as the clear winner, you might apply a process of
-elimination to your choices, until a winner emerges.
+Imagine you're at a department store, trying to choose one china pattern
+out of a dozen or more alternatives.  How do you do it?  If none stands out
+as the clear winner, you might apply a process of elimination to your
+choices, until a winner emerges.
 
 This application applies a process similar to that described above: first,
 the set of alternatives is defined.  Then the alternatives are presented
@@ -49,7 +49,8 @@ Shows the current script version.
 
 =item C<< <sourcefile> >>
 
-
+A text file containing the items to be ranked.  Blank lines are ignored, as
+well as lines starting with the C<#> character.
 
 =back
 
