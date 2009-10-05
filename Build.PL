@@ -8,11 +8,11 @@ my $builder = Module::Build->new(
     dist_author       => 'John Trammell <johntrammell@gmail.com>',
     dist_version_from => 'lib/App/War.pm',
     requires => {
-        'perl'                  => 0,
-        'strict'                => 0,
-        'warnings'              => 0,
-        'Carp'                  => 0,
-        'Data::Dumper'          => 0,
+        'perl'       => 0,
+        'strict'     => 0,
+        'warnings'   => 0,
+        'Graph'      => 0,
+        'List::Util' => 0,
     },
     build_requires => {
         'Test::More'            => 0,
