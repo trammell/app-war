@@ -1,13 +1,13 @@
 ---
 name: App-War
-version: 0.01
+version: 0.02
 author:
   - 'John Trammell <johntrammell@gmail.com>'
 abstract: turn one big decision into many small decisions
 license: perl
 requires:
-  Carp: 0
-  Data::Dumper: 0
+  Graph: 0
+  List::Util: 0
   perl: 0
   strict: 0
   warnings: 0
@@ -22,6 +22,6 @@ meta-spec:
 provides:
   App::War:
     file: lib/App/War.pm
-    version: 0.01
+    version: 0.02
 resources:
   license: ~
