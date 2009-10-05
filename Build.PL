@@ -15,8 +15,6 @@ my $builder = Module::Build->new(
         'Data::Dumper'          => 0,
     },
     build_requires => {
-        'strict'                => 0,
-        'warnings'              => 0,
         'Test::More'            => 0,
         'Test::Script'          => 1.06,
         'Module::Build::Compat' => 0,
