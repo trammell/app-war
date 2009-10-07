@@ -17,7 +17,7 @@ war - break one big decision into lots of little decisions
 =head1 SYNOPSIS
 
     war [-h|--help] [--man] [--version]
-    war <sourcefile>
+    war sourcefile
 
 =head1 DESCRIPTION
 
@@ -47,7 +47,7 @@ Shows detailed script information.
 
 Shows the current script version.
 
-=item C<< <sourcefile> >>
+=item C<sourcefile>
 
 A text file containing the items to be ranked.  Blank lines are ignored, as
 well as lines starting with the C<#> character.
