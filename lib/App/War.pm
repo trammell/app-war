@@ -4,7 +4,7 @@ use warnings FATAL => 'all';
 use Graph;
 use List::Util 'shuffle';
 
-our $VERSION = 0.02;
+our $VERSION = 0.03;
 
 =pod
 
