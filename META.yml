@@ -1,27 +1,32 @@
 ---
 name: App-War
-version: 0.02
+version: 0.03
 author:
   - 'John Trammell <johntrammell@gmail.com>'
 abstract: turn one big decision into many small decisions
 license: perl
 resources:
   license: http://dev.perl.org/licenses/
-requires:
-  Graph: 0
-  List::Util: 0
-  perl: 0
-  strict: 0
-  warnings: 0
 build_requires:
   Module::Build::Compat: 0
   Test::More: 0
   Test::Script: 1.06
+  Test::Warn: 0.11
+requires:
+  Getopt::Long: 0
+  Graph: 0
+  List::Util: 0
+  Pod::Usage: 0
+  perl: 0
+  strict: 0
+  warnings: 0
+configure_requires:
+  Module::Build: 0.35
 provides:
   App::War:
     file: lib/App/War.pm
-    version: 0.02
-generated_by: Module::Build version 0.31012
+    version: 0.03
+generated_by: Module::Build version 0.35
 meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.2.html
-  version: 1.2
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
