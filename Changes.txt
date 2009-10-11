@@ -3,6 +3,8 @@ Revision history for App-War
 0.03 2009-10-11
    - clarified POD in script/war
    - added Test::Warn dependency to Build.PL
+   - added Pod::Usage dependency
+   - added Getopt::Long dependency
 
 0.02  2009-10-05
    - added missing dependencies
