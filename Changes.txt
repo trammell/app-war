@@ -1,5 +1,8 @@
 Revision history for App-War
 
+0.03 2009-10-08
+   - clarified POD in script/war
+
 0.02  2009-10-05
    - added missing dependencies
    - removed unneeded dependencies
