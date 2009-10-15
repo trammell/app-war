@@ -16,10 +16,13 @@ war - break one big decision into lots of little decisions
 
 =head1 SYNOPSIS
 
-    war [-h|--help] [--man] [--version]
-    war [-g|--graph] [--file sourcefile | alt1 alt2 alt3 ]
+    war [--help] [--man] [--version]
+    war [--graph] --file sourcefile
+    war [--graph] alt1 alt2 alt3 ...
 
 =head1 DESCRIPTION
+
+FIXME -- find online documentation on paired comparison analysis
 
 Imagine you're at a department store, trying to choose one china pattern out
 of a dozen or more alternatives.  How do you do it?  If none stands out as the
@@ -35,11 +38,17 @@ until an unambiguous ordering of the alternatives is known.
 
 =over 4
 
-=item B<-f> filename, B<--file> filename
+=item B<--file> filename, B<-f> filename
 
-Reads the list of alternatives from file C<filename>.
+Reads the list of alternatives from file C<filename>, a text file
+containing the items to be ranked.  Blank lines are ignored, as well as
+lines starting with the pound (C<#>) character.
 
-=item B<-h>, B<--help>
+=item B<--graph>, B<-g>
+
+Show a textual representation of the preference graph.
+
+=item B<--help>, B<-h>, B<-?>
 
 Shows simple command-line options.
 
@@ -51,25 +60,42 @@ Shows detailed script information.
 
 Shows the current script version.
 
-=item C<sourcefile>
-
-A text file containing the items to be ranked.  Blank lines are ignored, as
-well as lines starting with the C<#> character.
-
 =back
 
 =head1 EXAMPLE
 
-    % war aphid butterfly caterpillar
+To choose our favorite bug, we could do the following:
 
-
-
-
-
+    % war aphid bee cricket
+    Choose one of the following:
+    <1> aphid
+    <2> bee
+    2
+    Choose one of the following:
+    <1> cricket
+    <2> bee
+    1
+    ===== final preference order =====
+    cricket
+    bee
+    aphid
+    %
 
 =head1 SEE ALSO
 
-L<App::War>
+=over 4
+
+=item L<http://en.wikipedia.org/wiki/Paired_comparison>
+
+=item L<http://en.wikipedia.org/wiki/Law_of_comparative_judgment>
+
+=item L<http://en.wikipedia.org/wiki/Analytic_Hierarchy_Process>
+
+=item L<http://www.kittenwar.com>
+
+=item L<App::War>
+
+=back
 
 =head1 AUTHOR
 
@@ -78,25 +104,38 @@ John Trammell, C<< <johntrammell [at] gmail.com> >>
 =cut
 
 our %OPT = ();
-my @OPTIONS = qw/ help|h man version|v /;
+my @OPTIONS = qw/ file|f graph|g help|h|? man version|v /;
 GetOptions(\%OPT,@OPTIONS) || pod2usage;
 if ($OPT{version}) { die "Using App::War v$VERSION\n" }
 if ($OPT{man}) { pod2usage(-verbose => 2); }
 if ($OPT{help} || !@ARGV) { pod2usage(-exitval => 0); }
 
 # get items
-my @items = _items(shift);
+my @items = _items();
+@items || pod2usage("No items specified.");
 
 # fight the war
 my $war = App::War->new(items => \@items)->run;
 
 # print the results
-print $war->report;
+report($war);
 
 # read the items from the file specified on the command line
 sub _items {
-    my $file = shift;
-    open(my $h,q(<),$file) or die $!;
+    return @ARGV if @ARGV;
+    open(my $h,q(<),$OPT{file}) or die $!;
     return grep { /\S/ && !/^#/ } map { chomp; $_ } <$h>;
+}
+
+sub report {
+    my $war = shift;
+    if ($OPT{graph}) {
+        print "graph: @{[ $war->graph ]}\n";
+    }
+    my @items = $war->items;
+    print "===== final preference order =====\n";
+    for (map { $items[$_] } $war->graph->topological_sort) {
+        print $_, "\n";
+    }
 }
 
