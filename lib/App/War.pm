@@ -225,7 +225,7 @@ sub _info {
 
 =head1 AUTHOR
 
-John Trammell, C<< <johntrammell <at> gmail <dot> com> >>
+John Trammell, C<< <johntrammell@gmail.com> >>
 
 =head1 BUGS
 
