@@ -85,6 +85,11 @@ To choose our favorite bug, we could do the following:
 
 =over 4
 
+=item L<App::War>
+
+Information on access to the source code, bug tracking, and smoke testing
+can be found in the L<App::War> documentation.
+
 =item L<http://en.wikipedia.org/wiki/Paired_comparison>
 
 =item L<http://en.wikipedia.org/wiki/Law_of_comparative_judgment>
@@ -92,8 +97,6 @@ To choose our favorite bug, we could do the following:
 =item L<http://en.wikipedia.org/wiki/Analytic_Hierarchy_Process>
 
 =item L<http://www.kittenwar.com>
-
-=item L<App::War>
 
 =back
 
