@@ -1,6 +1,6 @@
 ---
 name: App-War
-version: 0.03
+version: 0.04
 author:
   - 'John Trammell <johntrammell@gmail.com>'
 abstract: turn one big decision into many small decisions
@@ -25,7 +25,7 @@ configure_requires:
 provides:
   App::War:
     file: lib/App/War.pm
-    version: 0.03
+    version: 0.04
 generated_by: Module::Build version 0.35
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html

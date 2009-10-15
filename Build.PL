@@ -24,7 +24,7 @@ my $builder = Module::Build->new(
     },
     recursive_test_files => 1,
     script_files         => 'script',
-    add_to_cleanup       => [qw/ Debian* App-War-* *.bak/],
+    add_to_cleanup       => [qw/ Debian* App-War-* *.bak /],
 );
 
 $builder->create_build_script;
