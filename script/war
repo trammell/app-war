@@ -22,8 +22,6 @@ war - break one big decision into lots of little decisions
 
 =head1 DESCRIPTION
 
-FIXME -- find online documentation on paired comparison analysis
-
 Imagine you're at a department store, trying to choose one china pattern out
 of a dozen or more alternatives.  How do you do it?  If none stands out as the
 clear winner, you might apply a process of elimination to your choices, until
@@ -104,11 +102,11 @@ John Trammell, C<< <johntrammell [at] gmail.com> >>
 =cut
 
 our %OPT = ();
-my @OPTIONS = qw/ file|f graph|g help|h|? man version|v /;
+my @OPTIONS = qw/ file|f=s graph|g help|h|? man version|v /;
 GetOptions(\%OPT,@OPTIONS) || pod2usage;
 if ($OPT{version}) { die "Using App::War v$VERSION\n" }
-if ($OPT{man}) { pod2usage(-verbose => 2); }
-if ($OPT{help} || !@ARGV) { pod2usage(-exitval => 0); }
+if ($OPT{man})     { pod2usage(-verbose => 2); }
+if ($OPT{help})    { pod2usage(-exitval => 0); }
 
 # get items
 my @items = _items();
