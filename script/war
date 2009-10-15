@@ -17,23 +17,27 @@ war - break one big decision into lots of little decisions
 =head1 SYNOPSIS
 
     war [-h|--help] [--man] [--version]
-    war sourcefile
+    war [-g|--graph] [--file sourcefile | alt1 alt2 alt3 ]
 
 =head1 DESCRIPTION
 
-Imagine you're at a department store, trying to choose one china pattern
-out of a dozen or more alternatives.  How do you do it?  If none stands out
-as the clear winner, you might apply a process of elimination to your
-choices, until a winner emerges.
+Imagine you're at a department store, trying to choose one china pattern out
+of a dozen or more alternatives.  How do you do it?  If none stands out as the
+clear winner, you might apply a process of elimination to your choices, until
+a winner emerges.
 
-This application applies a process similar to that described above: first,
-the set of alternatives is defined.  Then the alternatives are presented
-pairwise to the user, who chooses one "winner" from each pair.  The process
-continues until an unambiguous ordering of the alternatives is known.
+This application applies a process similar to that described above: first, the
+set of alternatives is defined.  Then the alternatives are presented pairwise
+to the user, who chooses one "winner" from each pair.  The process continues
+until an unambiguous ordering of the alternatives is known.
 
 =head1 OPTIONS
 
 =over 4
+
+=item B<-f> filename, B<--file> filename
+
+Reads the list of alternatives from file C<filename>.
 
 =item B<-h>, B<--help>
 
@@ -53,6 +57,15 @@ A text file containing the items to be ranked.  Blank lines are ignored, as
 well as lines starting with the C<#> character.
 
 =back
+
+=head1 EXAMPLE
+
+    % war aphid butterfly caterpillar
+
+
+
+
+
 
 =head1 SEE ALSO
 
