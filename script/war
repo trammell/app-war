@@ -110,7 +110,9 @@ if ($OPT{help})    { pod2usage(-exitval => 0); }
 
 # get items
 my @items = _items();
-@items || pod2usage("No items specified.");
+unless (@items) {
+    pod2usage(-msg => 'No items specified.', -verbose => 0, -exitval => 0);
+}
 
 # fight the war
 my $war = App::War->new(items => \@items)->run;
