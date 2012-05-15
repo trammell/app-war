@@ -12,7 +12,7 @@ my $builder = Module::Build->new(
         'strict'       => 0,
         'warnings'     => 0,
         'Getopt::Long' => 0,
-        'Graph'        => 0,
+        'Graph'        => 0.84,
         'List::Util'   => 0,
         'Pod::Usage'   => 0,
     },
