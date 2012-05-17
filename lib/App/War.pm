@@ -202,11 +202,11 @@ sub compare {
 }
 
 sub _get_response {
-    my ($self,@items) = @_;
+    my ($self,@choose) = @_;
     print "Choose one of the following:\n";
-    print "<1> $items[0]\n";
-    print "<2> $items[1]\n";
-    (my $resp = <STDIN>) =~ y/12//cd;
+    print "<1> $choose[0]\n";
+    print "<2> $choose[1]\n";
+    (my $resp = (<STDIN> || q())) =~ y/12//cd;
     return $resp;
 }
 
