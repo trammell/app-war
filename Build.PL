@@ -25,6 +25,12 @@ my $builder = Module::Build->new(
     recursive_test_files => 1,
     script_files         => 'script',
     add_to_cleanup       => [qw/ Debian* App-War-* *.bak /],
+    meta_merge => {
+        resources => {
+            bugtracker => 'http://rt.cpan.org/NoAuth/Bugs.html?Dist=App-War',
+            repository => 'http://github.com/trammell/app-war',
+        }
+    },
 );
 
 $builder->create_build_script;

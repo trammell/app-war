@@ -20,3 +20,4 @@
 \bApp-War-[\d\.\_]+
 TODO.txt
 Debian_CPANTS.txt
+^MYMETA.yml$
