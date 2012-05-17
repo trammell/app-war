@@ -17,7 +17,7 @@ my $builder = Module::Build->new(
         'Pod::Usage'   => 0,
     },
     build_requires => {
-        'Test::More'            => 0,
+        'Test::Simple'          => 0.98,
         'Test::Script'          => 1.06,
         'Test::Warn'            => 0.11,
         'Module::Build::Compat' => 0,
