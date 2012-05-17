@@ -66,18 +66,12 @@ only vertices, one per item.
 
 =cut
 
-# NOTE: calling '$self->graph->add_vertex' breaks in strange
-# and mysterious ways.  Why does this fix it?
-
 sub init {
     my $self = shift;
     my @items = $self->items;
     $self->_info("Ranking items: @items");
-    my $g = $self->graph;
     for my $i (0 .. $#items) {
-        # Why does this not work?
-        # $self->graph->add_vertex($i);
-        $g->add_vertex($i);
+        $self->graph->add_vertex($i);
     }
     return $self;
 }
@@ -106,10 +100,10 @@ Returns the graph object that stores the user choices.
 
 sub graph {
     my $self = shift;
-    unless (exists $self->{graph}) {
-        $self->{graph} = Graph->new(directed => 1);
-    }
-    return $self->{graph};
+    # store the Graph object in an arrayref because it may stringify to a
+    # false value, breaking our or-cache
+    $self->{graph} ||= [ Graph->new(directed => 1) ];
+    return $self->{graph}->[0];
 }
 
 =head2 $war->items
