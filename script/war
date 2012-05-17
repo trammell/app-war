@@ -128,7 +128,7 @@ report($war);
 # read the items from the file specified on the command line
 sub _items {
     return @ARGV if @ARGV;
-    open(my $h,q(<),$OPT{file}) or die $!;
+    open(my $h, q(<), $OPT{file}) or die $!;
     return grep { /\S/ && !/^#/ } map { chomp; $_ } <$h>;
 }
 
