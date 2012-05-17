@@ -23,5 +23,5 @@ my $war = App::War->new(items => \@items)->init;
 $war->rank;
 
 # resolve the graph
-like($war->report,qr/Austin Buffalo Chicago Detroit/);
+like($war->report, qr/Austin Buffalo Chicago Detroit/);
 
